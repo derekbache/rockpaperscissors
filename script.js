@@ -8,35 +8,35 @@ function getComputerChoice (choices) {
 function playRound(playerSelection,computerSelection) {
     if (playerSelection == "rock") {
         if (computerSelection == "rock") {
-            return results = "Tie!";
+            return results = 0;
         }
         else if (computerSelection == "paper") {
-            return results = "You lose! Paper beats Rock";
+            return results = -1;
         }
         else {
-            return results = "You win!"
+            return results = 1;
         }
     }
     else if (playerSelection == "paper") {
         if (computerSelection == "paper") {
-            return results = "Tie!";
+            return results = 0;
         }
         else if (computerSelection == "scissors") {
-            return results = "You lose! Scissors beats Paper";
+            return results = -1;
         }
         else {
-            return results = "You win!"
+            return results = 1;
         }
     }
     else {
         if (computerSelection == "scissors") {
-            return results = "Tie!";
+            return results = 0;
         }
         else if (computerSelection == "rock") {
-            return results = "You lose! Rock beats Scissors";
+            return results = -1;
         }
         else {
-            return results = "You win!"
+            return results = 1;
         }
     }
 }
@@ -48,6 +48,13 @@ function game() {
         console.log("You picked " + playerSelection + " and Computron picked " + computerSelection);
         console.log(playRound(playerSelection,computerSelection));
     }
+    if (results > 0) {
+        console.log("You beat the computer!");
+    }
+    else if (results === 0) {
+        console.log("A tie!")
+    }
+    else console.log("You lost to the computer!");
 }
 
 console.log(game());
