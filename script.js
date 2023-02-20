@@ -1,60 +1,101 @@
-const choices = ["rock","paper","scissors"]
+const choices = ["rock", "paper", "scissors"];
+const gameLength = 5;
+let results = 0;
+let roundsPlayed = 0;
+const rockButton = document.querySelector("button.rock");
+const paperButton = document.querySelector("button.paper");
+const scissorsButton = document.querySelector("button.scissors");
+const message = document.querySelector("div.message");
+const resultsDisplay = document.querySelector("div.results");
+const container = document.querySelector("div.container");
+let isGameOver = false;
 
-function getComputerChoice (choices) {
+rockButton.addEventListener("click", function () {
+  playRound("rock");
+});
+paperButton.addEventListener("click", function () {
+  playRound("paper");
+});
+scissorsButton.addEventListener("click", function () {
+  playRound("scissors");
+});
+
+function getComputerChoice(choices) {
   var index = Math.floor(Math.random() * choices.length);
   return choices[index];
 }
 
-function playRound(playerSelection,computerSelection) {
-    if (playerSelection == "rock") {
-        if (computerSelection == "rock") {
-            return results = 0;
-        }
-        else if (computerSelection == "paper") {
-            return results = -1;
-        }
-        else {
-            return results = 1;
-        }
+function playRound(playerSelection) {
+  roundsPlayed++;
+  const computerSelection = getComputerChoice(choices);
+  if (playerSelection == "rock") {
+    if (computerSelection == "rock") {
+      return tieRound();
+    } else if (computerSelection == "paper") {
+      return lostRound();
+    } else {
+      return wonRound();
     }
-    else if (playerSelection == "paper") {
-        if (computerSelection == "paper") {
-            return results = 0;
-        }
-        else if (computerSelection == "scissors") {
-            return results = -1;
-        }
-        else {
-            return results = 1;
-        }
+  } else if (playerSelection == "paper") {
+    if (computerSelection == "paper") {
+      return tieRound();
+    } else if (computerSelection == "scissors") {
+      return lostRound();
+    } else {
+      return wonRound();
     }
-    else {
-        if (computerSelection == "scissors") {
-            return results = 0;
-        }
-        else if (computerSelection == "rock") {
-            return results = -1;
-        }
-        else {
-            return results = 1;
-        }
+  } else {
+    if (computerSelection == "scissors") {
+      return tieRound();
+    } else if (computerSelection == "rock") {
+      return lostRound();
+    } else {
+      return wonRound();
     }
+  }
 }
 
-function game() {
-    for (let i = 0; i < 5; i++) {
-        const playerSelection = prompt("Rock, Paper or Scissors?");
-        const computerSelection = getComputerChoice(choices);
-        console.log("You picked " + playerSelection + " and Computron picked " + computerSelection);
-        console.log(playRound(playerSelection,computerSelection));
-    }
-    if (results > 0) {
-        console.log("You beat the computer!");
-    }
-    else if (results === 0) {
-        console.log("A tie!")
-    }
-    else console.log("You lost to the computer!");
+function wonRound() {
+  results++;
+  if (roundsPlayed == 5) {
+    gameOver();
+  } else {
+    message.textContent = "You won this one!";
+    resultsDisplay.textContent = results;
+  }
 }
 
-console.log(game());
+function lostRound() {
+  results--;
+  if (roundsPlayed == 5) {
+    gameOver();
+  } else {
+    message.textContent = "Haha, I won this round!";
+    resultsDisplay.textContent = results;
+  }
+}
+
+function tieRound() {
+  if (roundsPlayed == 5) {
+    gameOver();
+  } else {
+    message.textContent = "A tie!";
+    resultsDisplay.textContent = results;
+  }
+}
+
+function gameOver() {
+  if (!isGameOver) {
+    isGameOver = true;
+    message.textContent = "Game Over!";
+    resultsDisplay.textContent = "Final result: " + resultsDisplay.textContent;
+    const resetButton = document.createElement("button");
+    resetButton.textContent = "Reset";
+    resetButton.addEventListener("click", () => {
+      window.location.reload();
+    });
+    container.appendChild(resetButton);
+  } else {
+    message.textContent = "Yo, stop clicking buttons, game is over!";
+  }
+}
