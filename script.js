@@ -87,8 +87,16 @@ function tieRound() {
 function gameOver() {
   if (!isGameOver) {
     isGameOver = true;
+    let winner;
+    if (results > 0) {
+      winner = "You";
+    } else if (results == 0) {
+      winner = "Neither";
+    } else {
+      winner = "Computron";
+    }
     message.textContent = "Game Over!";
-    resultsDisplay.textContent = "Final result: " + resultsDisplay.textContent;
+    resultsDisplay.textContent = "Final result: " + winner + " Won!";
     const resetButton = document.createElement("button");
     resetButton.textContent = "Reset";
     resetButton.addEventListener("click", () => {
